@@ -20,7 +20,7 @@ export class AboutComponent implements OnInit {
     // const id = this.route.snapshot.params['id'];
     // this.leader = this.leaderservice.getLeader(id);
     this.leaderservice.getLeaders()
-    .then(leaders => this.leaders = leaders);
+    .subscribe(leaders => this.leaders = leaders);
   }
 
 }
