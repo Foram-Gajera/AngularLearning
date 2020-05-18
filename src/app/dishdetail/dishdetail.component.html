@@ -39,7 +39,7 @@ fxLayoutGap.xs="0">
       </div>
 </div>
 
-<div fxFlex="40" *ngIf="dish">
+  <div fxFlex="40" *ngIf="dish">
     <h1>Comments</h1>
     <mat-list>   
         <mat-list-item *ngFor="let comments of dish.comments">
@@ -48,9 +48,43 @@ fxLayoutGap.xs="0">
             <p matLine> -- {{comments.author}} {{comments.date | date}}</p>
         </mat-list-item>
     </mat-list>
-</div>
-<div [hidden]="dish">
-  <mat-spinner></mat-spinner><h3>Loading...</h3>
-</div>
+    
+    <mat-list *ngIf="commentForm.valid">
+      <mat-list-item>
+        <p matLine><span>{{commentForm.value.comment}}</span></p>
+        <p matLine><span>{{commentForm.value.rating}} Stars</span></p>
+        <p matLine><span>-- {{commentForm.value.name}}</span></p>
+      </mat-list-item>
+    </mat-list>
+
+    <form novalidate #cform (ngSubmit)="onSubmit()" [formGroup]="commentForm"> 
+      <p>{{commentForm.value | json}}</p>
+      <p>
+        <mat-form-field class="half-width">
+          <input matInput type="text" name="name" placeholder="Name" formControlName="name" required>
+          <mat-error *ngIf="formErrors.name">{{formErrors.name}}</mat-error>
+        </mat-form-field>
+      </p>
+      <p> 
+        <mat-slider [max]="5" [value]="5" [min]="0" [step]="1" thumbLabel formControlName="rating">
+        <!-- <mat-slider value="5" [max]="5" [min]="0" [step]="1" [thumbLabel]="thumbLabel">-->
+        </mat-slider> 
+
+      </p>
+      <p>
+        <mat-form-field class="half-width">
+          <textarea matInput type="text" name="comment" placeholder="Your comment" rows="6" formControlName="comment" required>
+          </textarea>
+          <mat-error *ngIf="formErrors.comment">{{formErrors.comment}}</mat-error>
+        </mat-form-field>
+      </p>
+      <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">
+        Submit
+      </button>
+      </form>
+  </div>
+  <div [hidden]="dish">
+   <mat-spinner></mat-spinner><h3>Loading...</h3>
+  </div>
 
 </div>
