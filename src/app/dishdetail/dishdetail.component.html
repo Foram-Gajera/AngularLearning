@@ -7,7 +7,7 @@ fxLayoutAlign.gt-md="space-around center"
 fxLayoutGap="10px" 
 fxLayoutGap.xs="0">
 
-<div fxFlex="40" *ngIf="dish">
+<div fxFlex="40" *ngIf="dish" [@visibility]="visibility" [@expand]>
     <div fxFlex>
         <mat-card>
           <mat-card-header>
@@ -15,7 +15,7 @@ fxLayoutGap.xs="0">
               <h3>{{dish.name | uppercase}}</h3>
             </mat-card-title>
           </mat-card-header>
-          <img mat-card-image src={{dish.image}} alt={{dish.name}}>
+          <img mat-card-image src="{{ BaseURL + dish.image }}"alt={{dish.name}}>
           <mat-card-content>
             <p>{{dish.description}}
             </p>
@@ -39,7 +39,7 @@ fxLayoutGap.xs="0">
       </div>
 </div>
 
-  <div fxFlex="40" *ngIf="dish">
+  <div fxFlex="40" *ngIf="dish" [@visibility]="visibility" [@expand]>
     <h1>Comments</h1>
     <mat-list>   
         <mat-list-item *ngFor="let comments of dish.comments">
@@ -53,7 +53,7 @@ fxLayoutGap.xs="0">
       <mat-list-item>
         <p matLine><span>{{commentForm.value.comment}}</span></p>
         <p matLine><span>{{commentForm.value.rating}} Stars</span></p>
-        <p matLine><span>-- {{commentForm.value.name}}</span></p>
+        <p matLine><span>-- {{commentForm.value.author}} {{commentForm.value.date}}</span></p>
       </mat-list-item>
     </mat-list>
 
@@ -83,8 +83,13 @@ fxLayoutGap.xs="0">
       </button>
       </form>
   </div>
-  <div [hidden]="dish">
+  <div [hidden]="dish || errMess">
    <mat-spinner></mat-spinner><h3>Loading...</h3>
   </div>
+  <div fxFlex *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{errMess}}</h4>
+  </div>
+  
 
 </div>
